@@ -1,7 +1,20 @@
 import { Alert } from "react-bootstrap";
 import FormCadCategorias from "./Formularios/FormCadCategoria";
 import Pagina from "../layouts/Pagina";
+import { useState } from "react";
+import TabelaCategorias from "./Tabelas/TabelaCategorias";
+import { categorias } from "../../dados/mockCategorias";
+
 export default function TelaCadastroCategoria(props) {
+    const [exibirTabela, setExibirTabela] = useState(true);
+    const [listaDeCategorias, setListaDeCategorias] = useState(categorias);
+    const [modoEdicao, setModoEdicao] = useState(false);
+    const [categoriaSelecionada, setCategoriaSelecionada] = useState({
+        codigo:0,
+        descricao:"",
+    });
+
+   
     return (
         <div>
             <Pagina>
@@ -10,8 +23,25 @@ export default function TelaCadastroCategoria(props) {
                         Cadastro de Categoria
                     </h2>
                 </Alert>
-                <FormCadCategorias />
+                {
+                    exibirTabela ?
+                        <TabelaCategorias listaDeCategorias={listaDeCategorias}
+                                        setListaDeCategorias={setListaDeCategorias} 
+                                        setExibirTabela={setExibirTabela}
+                                        setModoEdicao={setModoEdicao}
+                                        setCategoriaSelecionada={setCategoriaSelecionada} /> :
+                        <FormCadCategorias listaDeCategorias={listaDeCategorias}
+                                         setListaDeCategorias={setListaDeCategorias}
+                                         setExibirTabela={setExibirTabela}
+                                         categoriaSelecionada={categoriaSelecionada}
+                                         setCategoriaSelecionada={setCategoriaSelecionada}
+                                         modoEdicao={modoEdicao}
+                                         setModoEdicao={setModoEdicao}
+
+                                         />
+                }
             </Pagina>
         </div>
     );
+
 }

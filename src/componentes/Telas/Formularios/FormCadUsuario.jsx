@@ -6,8 +6,8 @@ import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-export default function FormCadCategorias(props) {
-    const [categoria,setCategoria] = useState(props.categoriaSelecionada);
+export default function FormCadUsuarios(props) {
+    const [usuario,setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado,setFormValidado] = useState(false);
 
     function manipularSubmissao(evento){
@@ -16,23 +16,24 @@ export default function FormCadCategorias(props) {
             
             if (!props.modoEdicao){
                 //cadastrar o produto
-                props.setListaDeCategorias([...props.listaDeCategorias, categoria]);
+                props.setListaDeUsuarios([...props.listaDeUsuarios, usuario]);
                 //exibir tabela com o produto incluído
                 props.setExibirTabela(true);
             }
             else{
-                props.setListaDeCategorias(props.listaDeCategorias.map((item) => {
-                    if (item.codigo !== categoria.codigo)
+                props.setListaDeUsuarios(props.listaDeUsuarios.map((item) => {
+                    if (item.codigo !== usuario.codigo)
                         return item
                     else
-                        return categoria
+                        return usuario
                 }));
 
                 //voltar para o modo de inclusão
                 props.setModoEdicao(false);
-                props.setCategoriaSelecionada({
+                props.setUsuarioSelecionado({
                     codigo:0,
-                    descricao:"",
+                    username:"",
+                    email:"",
                 });
                 props.setExibirTabela(true);
             }
@@ -48,7 +49,7 @@ export default function FormCadCategorias(props) {
     function manipularMudanca(evento){
         const elemento = evento.target.name;
         const valor    = evento.target.value; 
-        setCategoria({...categoria, [elemento]:valor});
+        setUsuario({...usuario, [elemento]:valor});
     }
 
 
@@ -65,32 +66,50 @@ export default function FormCadCategorias(props) {
                             type="text"
                             id="codigo"
                             name="codigo"
-                            value={categoria.codigo}
+                            value={usuario.codigo}
                             disabled={props.modoEdicao}
                             onChange={manipularMudanca}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Informe o código da categoria!
+                            Informe o código do cliente!
                         </Form.Control.Feedback>
                     </FloatingLabel>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
-                <Form.Group as={Col} md="12">
+                <Form.Group as={Col} md="4">
                     <FloatingLabel
-                        label="Categoria:"
+                        label="USERNAME:"
                         className="mb-3"
                     >
                         <Form.Control
                             required
                             type="text"
-                            id="descricao"
-                            name="descricao"
-                            value={categoria.descricao}
+                            id="username"
+                            name="username"
+                            value={usuario.username}
                             onChange={manipularMudanca}
                         />
                         <Form.Control.Feedback type="invalid">
-                            Informe a descrição da categoria!
+                            Informe o Username do usuario!
+                        </Form.Control.Feedback>
+                    </FloatingLabel>
+                </Form.Group>
+                <Form.Group as={Col} md="8">
+                    <FloatingLabel
+                        label="Email:"
+                        className="mb-3"
+                    >
+                        <Form.Control
+                            required
+                            type="text"
+                            id="email"
+                            name="email"
+                            value={usuario.email}
+                            onChange={manipularMudanca}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Informe o email do usuario!
                         </Form.Control.Feedback>
                     </FloatingLabel>
                 </Form.Group>
@@ -106,5 +125,5 @@ export default function FormCadCategorias(props) {
                 </Col>
             </Row>
         </Form>
-    );    
+    );
 }
